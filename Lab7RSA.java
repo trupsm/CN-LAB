@@ -8,7 +8,7 @@ class RSAalgorithm {
     // prk--private key (d)
     // puk--public key (e)
     // n--modulus (n = p × q)
-    BigInteger prk, puk, n;
+    BigInteger d,e, n;
 
     // This method generates the RSA public and private keys
     void getkeys(int bitlen) {
@@ -29,28 +29,28 @@ class RSAalgorithm {
         BigInteger phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
 
         // Choose public key exponent e
-        puk = BigInteger.probablePrime(bitlen / 2, r);
+        e = BigInteger.probablePrime(bitlen / 2, r);
 
         // Ensure e is coprime with φ(n) and less than φ(n)
-        while (!phi.gcd(puk).equals(BigInteger.ONE) || puk.compareTo(phi) >= 0) {
-            puk = BigInteger.probablePrime(bitlen / 2, r);
+        while (!phi.gcd(e).equals(BigInteger.ONE) || e.compareTo(phi) >= 0) {
+            e = BigInteger.probablePrime(bitlen / 2, r);
         }
 
         // Calculate private key exponent d 
         //d × e ≡ 1 (mod φ(n))
-        prk = puk.modInverse(phi);
+        d = e.modInverse(phi);
     }
     //public key (e,n)
     //private key (d,n)
 
     // Encryption formula: C = M^e mod n
     BigInteger encrypt(BigInteger message) {
-        return message.modPow(puk, n);
+        return message.modPow(e, n);
     }
 
     // Decryption formula: M = C^d mod n
     BigInteger decrypt(BigInteger cipher) {
-        return cipher.modPow(prk, n);
+        return cipher.modPow(d, n);
     }
 }
 
@@ -88,4 +88,5 @@ class Lab7RSA {
         // Close the scanner
         sc.close();
     }
+
 }
