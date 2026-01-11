@@ -1,3 +1,15 @@
+/*
+Step 1: Read the binary data to be transmitted.
+Step 2: Read the binary key (generator polynomial).
+Step 3: Append (key length − 1) zeros to the data to form augmented data.
+Step 4: Divide the augmented data by the key using XOR operation.
+Step 5: Obtain the remainder from the division.
+Step 6: Append the remainder to the original data to get encoded data.
+Step 7: Transmit the encoded data to the receiver.
+Step 8: At the receiver, divide the received data by the same key using XOR.
+Step 9: If the remainder is all zeros, data is error free; otherwise error is detected.
+Step 10: Stop.
+*/
 import java.util.Scanner;
 
 public class Lab3CRC {
@@ -11,12 +23,11 @@ public class Lab3CRC {
     }
 
     /*
-     * This function performs CRC division (XOR division).
-     * It takes:
-     *  - dividend : data bits (with appended zeros or received data)
-     *  - divisor  : CRC key (generator polynomial)
-     * It returns:
-     *  - remainder after division
+     This function performs CRC division (XOR division).
+     It takes:
+     dividend : data bits (with appended zeros or received data)
+     divisor  : CRC key (generator polynomial)
+     It returns: remainder after division
      */
     static String getRemainder(String dividend, String divisor) {
 
@@ -48,10 +59,10 @@ public class Lab3CRC {
     }
 
     /*
-     * This function encodes the data by:
-     * 1. Appending (key length - 1) zeros to the data
-     * 2. Finding the CRC remainder
-     * 3. Appending the remainder to the original data
+     This function encodes the data by:
+     1. Appending (key length - 1) zeros to the data
+     2. Finding the CRC remainder
+     3. Appending the remainder to the original data
      */
     static String encodeData(String data, String key) {
 
@@ -66,10 +77,10 @@ public class Lab3CRC {
     }
 
     /*
-     * This function decodes the received data.
-     * It checks whether an error occurred during transmission.
-     * If remainder contains '1' -> error detected
-     * If remainder is all '0' -> data is error free
+     This function decodes the received data.
+     It checks whether an error occurred during transmission.
+     If remainder contains '1' -> error detected
+     If remainder is all '0' -> data is error free
      */
     static boolean decodeData(String receivedData, String key) {
         // Calculate remainder of received data
@@ -78,13 +89,6 @@ public class Lab3CRC {
         // Check for presence of error
         return remainder.contains("1");
     }
-
-    /*
-     * Main function:
-     * Takes input from user,
-     * performs encoding and decoding,
-     * and displays the result.
-     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         // Input original data
@@ -112,3 +116,4 @@ public class Lab3CRC {
         sc.close();
     }
 }
+
